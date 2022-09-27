@@ -2,17 +2,22 @@ const gameboard = (function name(params) {
   let boardGriddy = [];
   let whoWon;
   let currentTurn = true;
+
   let _checkCurrentTurn = (grid) => {
-    let move = currentTurn
-      ? (grid.target.innerHTML = "X")
-      : (grid.target.innerHTML = "O");
+    let move = currentTurn ? "X" : "O";
     currentTurn = !currentTurn;
     return move;
   };
 
+  // if element length is not zero then it is not empty
+  let _checkIfEmpty = (grid) => grid.childNodes.length;
+
   let markGrid = (grid) => {
-    /* let square = _checkCurrentTurn(grid); */
     console.log(grid.target.closest(".square"));
+    if (_checkIfEmpty(grid.target)) {
+      console.log("already marked");
+      return;
+    }
 
     grid.target.innerHTML = _checkCurrentTurn(grid);
   };
