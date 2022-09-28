@@ -2,6 +2,12 @@ const gameboard = (function name(params) {
   let boardGriddy = [];
   let whoWon;
   let currentTurn = true;
+  const squares = document.querySelectorAll(".square");
+  let _clearGriddy = () => {
+    squares.forEach((element) => {
+      element.innerHTML = "";
+    });
+  };
 
   let _checkCurrentTurn = (grid) => {
     let move = currentTurn ? "X" : "O";
@@ -22,7 +28,7 @@ const gameboard = (function name(params) {
     grid.target.innerHTML = _checkCurrentTurn(grid);
   };
 
-  return { boardGriddy, markGrid };
+  return { boardGriddy, markGrid, squares, _clearGriddy };
 })();
 
 const players = (function players(params) {
@@ -33,7 +39,6 @@ const players = (function players(params) {
   return { playerOne, playerTwo };
 })();
 
-const squares = document.querySelectorAll(".square");
-squares.forEach((element) =>
+gameboard.squares.forEach((element) =>
   element.addEventListener("click", gameboard.markGrid)
 );
