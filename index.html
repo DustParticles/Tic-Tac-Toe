@@ -27,11 +27,20 @@
     </header>
     <main>
       <div class="gameboard">
-        <button data-grid-button="1" class="square"></button>
-        <button data-grid-button="2" class="square"></button>
-        <button data-grid-button="3" class="square"></button>
-        <button data-grid-button="4" class="square"></button>
-        <button data-grid-button="5" class="square">
+        <button
+          data-grid-button="1"
+          class="square row-1 column-1 cross-1"
+        ></button>
+        <button data-grid-button="2" class="square row-1 column-1"></button>
+        <button
+          data-grid-button="3"
+          class="square row-1 column-1 cross-2"
+        ></button>
+        <button data-grid-button="4" class="square row-2 column-2"></button>
+        <button
+          data-grid-button="5"
+          class="square row-2 column-2 cross-1 cross-2"
+        >
           <svg style="" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -39,8 +48,8 @@
             />
           </svg>
         </button>
-        <button data-grid-button="6" class="square"></button>
-        <button data-grid-button="7" class="square">
+        <button data-grid-button="6" class="square row-2 column-2"></button>
+        <button data-grid-button="7" class="square row-3 column-3 cross-2">
           <svg
             style=""
             viewBox="0 0 24 24"
@@ -52,7 +61,7 @@
             />
           </svg>
         </button>
-        <button data-grid-button="8" class="square">
+        <button data-grid-button="8" class="square row-3 column-3">
           <svg
             style=""
             viewBox="0 0 24 24"
@@ -64,7 +73,7 @@
             />
           </svg>
         </button>
-        <button data-grid-button="9" class="square">
+        <button data-grid-button="9" class="square row-3 column-3 cross-1">
           <svg viewBox="0 0 24 24">
             <path
               fill="red"
