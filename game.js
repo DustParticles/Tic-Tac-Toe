@@ -20,7 +20,8 @@ const gameboard = (function name(params) {
   let whoWon;
   let currentTurn = true;
   const squares = document.querySelectorAll(".square");
-  let _resetGame = () => {
+  const resetButton = document.querySelector(".reset-button");
+  let resetGame = () => {
     // clear display grid
     squares.forEach((element) => {
       element.innerHTML = "";
@@ -106,7 +107,8 @@ const gameboard = (function name(params) {
   return {
     markGrid,
     squares,
-    _resetGame,
+    resetButton,
+    resetGame,
     _checkIfSomeoneWon,
     player1,
     player2,
@@ -117,3 +119,5 @@ const gameboard = (function name(params) {
 gameboard.squares.forEach((element) =>
   element.addEventListener("click", gameboard.markGrid)
 );
+
+gameboard.resetButton.addEventListener("click", gameboard.resetGame);
