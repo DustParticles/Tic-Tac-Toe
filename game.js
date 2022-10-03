@@ -20,14 +20,15 @@ const gameboard = (function name(params) {
   let whoWon;
   let currentTurn = true;
   const squares = document.querySelectorAll(".square");
-  let _clearGriddy = () => {
+  let _resetGame = () => {
     // clear display grid
     squares.forEach((element) => {
       element.innerHTML = "";
     });
 
-    console.log("are you okay bruh?");
     // reset array grid
+    player1.playerMoves = [];
+    player2.playerMoves = [];
   };
 
   let _checkCurrentTurn = (grid) => {
@@ -41,15 +42,6 @@ const gameboard = (function name(params) {
   const _changeTurn = () => (currentTurn = !currentTurn);
 
   let _checkIfSomeoneWon = () => {
-    /* weird way of doing kind weirdchampionship // player1.playerMoves.sort((a, b) => a - b);
-    // player2.playerMoves.sort((a, b) => a - b);
-    // for (const key in _allPossibleWinningMoves) {
-    //   let winCondition = _allPossibleWinningMoves[key].join();
-    //   if (winCondition === player1.playerMoves.join()) return true;
-    // } */
-
-    console.log(_checkIfInside(player1.playerMoves));
-
     switch (true) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
@@ -66,6 +58,7 @@ const gameboard = (function name(params) {
     // make sure player has marked atleast 3 times
     if (playerMoves < 3) return false;
 
+    // iterate through all possible win conditions
     for (
       let index = 0;
       index < Object.keys(_allPossibleWinningMoves).length;
@@ -77,19 +70,13 @@ const gameboard = (function name(params) {
         return winningNumbers.includes(number);
       });
 
+      // stop when someone wins
       if (checkIfMatches) {
         return true;
       }
     }
   };
 
-  // use an object to store possible indexes that would win - done
-
-  // get players index moves  - done?
-
-  // and then compare that to the objects possible ways to win
-
-  // if element length is not zero then it is not empty
   let _checkIfEmpty = (grid) => grid.childNodes.length;
 
   let markGrid = (grid) => {
@@ -119,7 +106,7 @@ const gameboard = (function name(params) {
   return {
     markGrid,
     squares,
-    _clearGriddy,
+    _resetGame,
     _checkIfSomeoneWon,
     player1,
     player2,
