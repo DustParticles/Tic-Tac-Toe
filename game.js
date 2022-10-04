@@ -67,14 +67,12 @@ const gameboard = (function name(params) {
     ) {
       const winningNumbers = _allPossibleWinningMoves[index];
 
-      let checkIfMatches = playerMoves.every((number) => {
-        return winningNumbers.includes(number);
+      let checkIfMatches = winningNumbers.every((number) => {
+        return playerMoves.includes(number);
       });
 
       // stop when someone wins
-      if (checkIfMatches) {
-        return true;
-      }
+      if (checkIfMatches) return true;
     }
   };
 
