@@ -351,6 +351,16 @@ template {
 }
 
 /* End Of normalize.css */
+@font-face {
+  font-family: SilkScreen;
+  src: url(Fonts/Silkscreen-Bold.ttf);
+}
+
+* {
+  margin: 0%;
+  padding: 0%;
+}
+
 .h1 {
   font-size: 38px;
   font-weight: 900;
@@ -378,7 +388,115 @@ header {
   font-size: 32px;
 }
 
+.overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  outline: 2px solid red;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.overlay-close {
+  display: none;
+}
+
+.game-settings {
+  display: flex;
+  gap: 60px;
+}
+
+.player-1-settings,
+.player-2-settings {
+  display: flex;
+  flex-direction: column;
+}
+
 main {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.player-1-container,
+.player-2-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
+
+.player-icon {
+  display: flex;
+  outline: 1px solid black;
+  padding: 5px;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-title {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 30px;
+}
+
+.player-1-name,
+.player-2-name {
+  font-weight: 900;
+  font-size: 1.5em;
+  font-family: SilkScreen, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+.edit-name {
+  display: none;
+  height: 20px;
+  width: 20px;
+}
+
+.player-2-container {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.player-1-name {
+  display: flex;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(20px, 1fr));
+  grid-template-rows: repeat(3, minmax(20px, 1fr));
+  width: 258px;
+  height: 250px;
+}
+
+.square {
   display: flex;
   justify-content: center;
+  align-items: center;
+  outline: 2px solid black;
+  background-color: transparent;
+  font-size: 8vh;
+}
+
+.xbox-mini-fridge {
+  color: #107810;
+}
+.playstion-wifi-router {
+  color: #0070d1;
+}
+
+svg {
+  pointer-events: none;
 }
