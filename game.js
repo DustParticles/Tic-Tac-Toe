@@ -1,12 +1,14 @@
 const player = function players(params) {
   let name;
   let playerMoves = [];
-  return { playerMoves };
+  return { playerMoves, name };
 };
 
 const gameboard = (function name(params) {
   let player1 = player();
   let player2 = player();
+  let displayName1 = document.querySelector(".player-1-name");
+  let displayName2 = document.querySelector(".player-2-name");
   const _allPossibleWinningMoves = {
     0: [1, 2, 3],
     1: [4, 5, 6],
@@ -19,8 +21,14 @@ const gameboard = (function name(params) {
   };
   let whoWon;
   let currentTurn = true;
+  // elements
   const squares = document.querySelectorAll(".square");
+  const overlay = document.querySelector(".overlay");
+
+  // buttons
   const resetButton = document.querySelector(".reset-button");
+  const nameInputs = document.querySelectorAll(".change-name-input");
+  const startGameButton = document.querySelector(".start-game");
   let resetGame = () => {
     // clear display grid
     squares.forEach((element) => {
@@ -49,9 +57,7 @@ const gameboard = (function name(params) {
         console.log("it is in fact true i did flabberdaeus");
         break;
       default:
-        console.log(
-          console.log("it is in fact false i did flabberastronomically")
-        );
+        console.log("it is in fact false i did flabberastronomically");
     }
   };
 
@@ -106,16 +112,46 @@ const gameboard = (function name(params) {
     markGrid,
     squares,
     resetButton,
+    overlay,
+    nameInputs,
     resetGame,
     _checkIfSomeoneWon,
+    startGameButton,
     player1,
     player2,
+    displayName1,
+    displayName2,
   };
 })();
 
 // listen for when clicked
-gameboard.squares.forEach((element) =>
-  element.addEventListener("click", gameboard.markGrid)
+gameboard.squares.forEach((square) =>
+  square.addEventListener("click", gameboard.markGrid)
 );
 
+// listen to when player alters name
+gameboard.nameInputs.forEach((nameInput) => {
+  nameInput.addEventListener("change", (event) => {
+    // check if input value is empty
+    nameInput.value = nameInput.value.trim() ? nameInput.value : "bob";
+
+    if (nameInput.id === "player-1") {
+      console.log(nameInput.value, "player 1 chang");
+      gameboard.player1 = nameInput.value;
+      gameboard.displayName1.innerText = nameInput.value;
+    } else {
+      console.log("player 2 chainge");
+      gameboard.player2 = nameInput.value;
+      gameboard.displayName2.innerText = nameInput.value;
+    }
+  });
+});
+
 gameboard.resetButton.addEventListener("click", gameboard.resetGame);
+
+gameboard.startGameButton.addEventListener("click", () => {
+  let joe = document.querySelector(".change-name-input").value;
+
+  gameboard.overlay.classList.add("overlay-close");
+  if (joe.includes("﷽")) alert("ur adoptred");
+});
