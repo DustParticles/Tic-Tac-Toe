@@ -55,6 +55,7 @@ const gameboard = (function name(params) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
         alert("you won 99 v buks");
+        _disableGrid();
         console.log("it is in fact true i did flabberdaeus");
         break;
       default:
