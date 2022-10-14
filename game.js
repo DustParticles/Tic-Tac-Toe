@@ -54,6 +54,7 @@ const gameboard = (function name(params) {
     switch (true) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
+        alert("you won 99 v buks");
         console.log("it is in fact true i did flabberdaeus");
         break;
       default:
@@ -84,6 +85,22 @@ const gameboard = (function name(params) {
 
   let _checkIfEmpty = (grid) => grid.childNodes.length;
 
+  let _disableGrid = () => {
+    let increment = 0;
+    while (increment < squares.length) {
+      squares[increment].setAttribute("disabled", "disabled");
+      ++increment;
+    }
+  };
+
+  let _enableGrid = () => {
+    let increment = 0;
+    while (increment < squares.length) {
+      squares[increment].removeAttribute("disabled");
+      ++increment;
+    }
+  };
+
   let markGrid = (grid) => {
     if (_checkIfEmpty(grid.target)) {
       console.log("already marked");
@@ -106,6 +123,7 @@ const gameboard = (function name(params) {
     grid.target.innerHTML = move;
 
     _changeTurn();
+    _checkIfSomeoneWon();
   };
 
   return {
@@ -116,6 +134,8 @@ const gameboard = (function name(params) {
     nameInputs,
     resetGame,
     _checkIfSomeoneWon,
+    _disableGrid,
+    _enableGrid,
     startGameButton,
     player1,
     player2,
