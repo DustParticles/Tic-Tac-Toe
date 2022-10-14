@@ -38,6 +38,9 @@ const gameboard = (function name(params) {
     // reset array grid
     player1.playerMoves = [];
     player2.playerMoves = [];
+
+    // Make grid clickable
+    _enableGrid();
   };
 
   let _checkCurrentTurn = (grid) => {
@@ -134,9 +137,6 @@ const gameboard = (function name(params) {
     overlay,
     nameInputs,
     resetGame,
-    _checkIfSomeoneWon,
-    _disableGrid,
-    _enableGrid,
     startGameButton,
     player1,
     player2,
