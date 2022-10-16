@@ -1,7 +1,8 @@
 const player = function players(params) {
   let name;
+  let wins = 0;
   let playerMoves = [];
-  return { playerMoves, name };
+  return { playerMoves, name, wins };
 };
 
 const gameboard = (function name(params) {
@@ -47,7 +48,7 @@ const gameboard = (function name(params) {
     const nintendo = "X";
     const ps4 = "O";
 
-    let move = currentTurn ? nintendo : ps4;
+    move = currentTurn ? nintendo : ps4;
     return move;
   };
 
@@ -57,8 +58,9 @@ const gameboard = (function name(params) {
     switch (true) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
-        let winner = _checkCurrentTurn ? player1.name : player2.name;
-        alert(winner);
+        let winner = currentTurn ? player1 : player2;
+        winner.wins++;
+        alert(winner.name);
         _disableGrid();
         console.log("it is in fact true i did flabberdaeus");
         break;
@@ -148,7 +150,7 @@ const gameboard = (function name(params) {
 
 // listen for when clicked
 gameboard.squares.forEach((square) =>
-  square.addEventListener("click", gameboard.markGrid)
+  addEventListener("click", gameboard.markGrid)
 );
 
 // listen to when player alters name
