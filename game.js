@@ -57,7 +57,8 @@ const gameboard = (function name(params) {
     switch (true) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
-        alert("you won 99 v buks");
+        let winner = _checkCurrentTurn ? player1.name : player2.name;
+        alert(winner);
         _disableGrid();
         console.log("it is in fact true i did flabberdaeus");
         break;
@@ -126,8 +127,8 @@ const gameboard = (function name(params) {
     // display
     grid.target.innerHTML = move;
 
-    _changeTurn();
     _checkIfSomeoneWon();
+    _changeTurn();
   };
 
   return {
@@ -158,11 +159,11 @@ gameboard.nameInputs.forEach((nameInput) => {
 
     if (nameInput.id === "player-1") {
       console.log(nameInput.value, "player 1 chang");
-      gameboard.player1 = nameInput.value;
+      gameboard.player1.name = nameInput.value;
       gameboard.displayName1.innerText = nameInput.value;
     } else {
       console.log("player 2 chainge");
-      gameboard.player2 = nameInput.value;
+      gameboard.player2.name = nameInput.value;
       gameboard.displayName2.innerText = nameInput.value;
     }
   });
