@@ -122,8 +122,9 @@ const gameboard = (function name(params) {
   };
 
   let _checkConsecutiveDraw = () => {
-    if (_checkForDraw()) draws++;
-    return draws >= 3;
+    let drawResults = _checkForDraw();
+    if (drawResults) draws++;
+    return draws >= 3 && drawResults;
   };
 
   let _checkIfEmpty = (grid) => grid.childNodes.length;
