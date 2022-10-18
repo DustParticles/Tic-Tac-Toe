@@ -1,15 +1,15 @@
-const player = function players(params) {
+const Player = function players() {
   let name;
   let wins = 0;
+
   let playerMoves = [];
   return { playerMoves, name, wins };
 };
 
 const gameboard = (function name(params) {
-  let player1 = player();
-  let player2 = player();
-  let displayName1 = document.querySelector(".player-1-name");
-  let displayName2 = document.querySelector(".player-2-name");
+  let player1 = Player();
+  let player2 = Player();
+  let draws = 0;
   const _allPossibleWinningMoves = {
     0: [1, 2, 3],
     1: [4, 5, 6],
@@ -20,11 +20,18 @@ const gameboard = (function name(params) {
     6: [1, 5, 9],
     7: [3, 5, 7],
   };
-  let whoWon;
   let currentTurn = true;
   // elements
   const squares = document.querySelectorAll(".square");
   const overlay = document.querySelector(".overlay");
+
+  const displayName1 = document.querySelector(".player-1-name");
+  const displayName2 = document.querySelector(".player-2-name");
+
+  const scoreboard = {
+    scoreOne: document.querySelector(".player-score-one"),
+    scoreTwo: document.querySelector(".player-score-two"),
+  };
 
   // buttons
   const resetButton = document.querySelector(".reset-button");
@@ -48,21 +55,39 @@ const gameboard = (function name(params) {
     const nintendo = "X";
     const ps4 = "O";
 
-    move = currentTurn ? nintendo : ps4;
+    const move = currentTurn ? nintendo : ps4;
     return move;
   };
 
   const _changeTurn = () => (currentTurn = !currentTurn);
 
+  const _changeScoreboard = (winner) => {
+    let scoreboardElement = currentTurn
+      ? scoreboard.scoreOne
+      : scoreboard.scoreTwo;
+    scoreboardElement.innerText = winner;
+  };
+
   let _checkIfSomeoneWon = () => {
     switch (true) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
-        let winner = currentTurn ? player1 : player2;
-        winner.wins++;
-        alert(winner.name);
         _disableGrid();
+        draws = 0;
+        let winner = currentTurn ? player1 : player2;
+        alert(winner.name);
+        winner.wins++;
+        _changeScoreboard(winner.wins);
+
         console.log("it is in fact true i did flabberdaeus");
+        break;
+
+      case _checkConsecutiveDraw():
+        alert(`${draws} in a row draw!`);
+        break;
+
+      case _checkForDraw():
+        alert("Majority DRAW");
         break;
       default:
         console.log("it is in fact false i did flabberastronomically");
@@ -88,6 +113,17 @@ const gameboard = (function name(params) {
       // stop when someone wins
       if (checkIfMatches) return true;
     }
+  };
+
+  let _checkForDraw = () => {
+    let totalMovesMade =
+      player1.playerMoves.length + player2.playerMoves.length;
+    return totalMovesMade >= 9;
+  };
+
+  let _checkConsecutiveDraw = () => {
+    if (_checkForDraw()) draws++;
+    return draws >= 3;
   };
 
   let _checkIfEmpty = (grid) => grid.childNodes.length;
@@ -145,6 +181,8 @@ const gameboard = (function name(params) {
     player2,
     displayName1,
     displayName2,
+
+    _checkForDraw,
   };
 })();
 
@@ -152,6 +190,9 @@ const gameboard = (function name(params) {
 gameboard.squares.forEach((square) =>
   addEventListener("click", gameboard.markGrid)
 );
+
+/* let gamething = document.querySelector(".gameboard");
+gamething.addEventListener("click", gameboard.markGrid); */
 
 // listen to when player alters name
 gameboard.nameInputs.forEach((nameInput) => {
