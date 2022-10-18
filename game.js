@@ -1,14 +1,15 @@
-const player = function players(params) {
+const Player = function players() {
   let name;
   let wins = 0;
+
   let playerMoves = [];
   return { playerMoves, name, wins };
 };
 
 const gameboard = (function name(params) {
-  let player1 = player();
-  let player2 = player();
-
+  let player1 = Player();
+  let player2 = Player();
+  let draws = 0;
   const _allPossibleWinningMoves = {
     0: [1, 2, 3],
     1: [4, 5, 6],
@@ -72,12 +73,21 @@ const gameboard = (function name(params) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
         _disableGrid();
+        draws = 0;
         let winner = currentTurn ? player1 : player2;
         alert(winner.name);
         winner.wins++;
         _changeScoreboard(winner.wins);
 
         console.log("it is in fact true i did flabberdaeus");
+        break;
+
+      case _checkConsecutiveDraw():
+        alert(`${draws} in a row draw!`);
+        break;
+
+      case _checkForDraw():
+        alert("Majority DRAW");
         break;
       default:
         console.log("it is in fact false i did flabberastronomically");
@@ -103,6 +113,17 @@ const gameboard = (function name(params) {
       // stop when someone wins
       if (checkIfMatches) return true;
     }
+  };
+
+  let _checkForDraw = () => {
+    let totalMovesMade =
+      player1.playerMoves.length + player2.playerMoves.length;
+    return totalMovesMade >= 9;
+  };
+
+  let _checkConsecutiveDraw = () => {
+    if (_checkForDraw()) draws++;
+    return draws >= 3;
   };
 
   let _checkIfEmpty = (grid) => grid.childNodes.length;
@@ -160,6 +181,8 @@ const gameboard = (function name(params) {
     player2,
     displayName1,
     displayName2,
+
+    _checkForDraw,
   };
 })();
 
