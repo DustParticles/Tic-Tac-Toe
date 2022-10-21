@@ -35,6 +35,7 @@ const gameboard = (function name(params) {
 
   // buttons
   const resetButton = document.querySelector(".reset-button");
+  const returnBackButton = document.querySelector(".go-back-overlay");
   const nameInputs = document.querySelectorAll(".change-name-input");
   const startGameButton = document.querySelector(".start-game");
   let resetGame = () => {
@@ -129,6 +130,10 @@ const gameboard = (function name(params) {
 
   let _checkIfEmpty = (grid) => grid.childNodes.length;
 
+  let toggleOverlay = () => {
+    overlay.classList.toggle("overlay-close");
+  };
+
   let _disableGrid = () => {
     let increment = 0;
     while (increment < squares.length) {
@@ -176,12 +181,14 @@ const gameboard = (function name(params) {
     resetButton,
     overlay,
     nameInputs,
+    returnBackButton,
     resetGame,
     startGameButton,
     player1,
     player2,
     displayName1,
     displayName2,
+    toggleOverlay,
 
     _checkForDraw,
   };
@@ -215,9 +222,6 @@ gameboard.nameInputs.forEach((nameInput) => {
 
 gameboard.resetButton.addEventListener("click", gameboard.resetGame);
 
-gameboard.startGameButton.addEventListener("click", () => {
-  let joe = document.querySelector(".change-name-input").value;
+gameboard.returnBackButton.addEventListener("click", gameboard.toggleOverlay);
 
-  gameboard.overlay.classList.add("overlay-close");
-  if (joe.includes("﷽")) alert("ur adoptred");
-});
+gameboard.startGameButton.addEventListener("click", gameboard.toggleOverlay);
