@@ -352,13 +352,42 @@ template {
 
 /* End Of normalize.css */
 @font-face {
-  font-family: SilkScreen;
+  font-family: SilkScreenBold;
   src: url(Fonts/Silkscreen-Bold.ttf);
+}
+@font-face {
+  font-family: SilkScreenRegular;
+  src: url(Fonts/Silkscreen-Regular.ttf);
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 
 * {
   margin: 0%;
   padding: 0%;
+}
+
+.default-button-style:hover {
+  transition: 0.1s;
+  transform: scale(1.01);
+  box-shadow: 2px 2px 1.5px 1.5px gray;
+  color: #1d4ed8;
+  font-family: SilkScreenRegular;
+  outline: none;
+}
+
+.default-button-style {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+
+  font-family: SilkScreenRegular;
+  outline: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
 }
 
 .h1 {
@@ -396,17 +425,23 @@ header {
   gap: 50px;
   outline: 2px solid red;
   position: absolute;
+  z-index: 1000;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .overlay-close {
   display: none;
 }
 
-.game-settings {
-  display: flex;
-  gap: 60px;
+.start-game > * {
+  animation: blinker 1s linear infinite;
+}
+
+.start-game,
+.start-game:hover {
+  font-family: SilkScreenBold;
 }
 
 .player-1-settings,
@@ -451,7 +486,7 @@ main {
 .player-2-name {
   font-weight: 900;
   font-size: 1.5em;
-  font-family: SilkScreen, system-ui, -apple-system, BlinkMacSystemFont,
+  font-family: SilkScreenBold, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
     sans-serif;
 }
@@ -479,6 +514,42 @@ main {
   grid-template-rows: repeat(3, minmax(20px, 1fr));
   width: 258px;
   height: 250px;
+}
+
+.game-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+  padding: 10px;
+
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.game-settings {
+  display: flex;
+  gap: 60px;
+}
+
+.go-back-overlay,
+.reset-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: SilkScreenRegular, Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.go-back-overlay:hover,
+.reset-button:hover {
+  transform: scale(1.01);
+}
+
+.go-back-overlay:active {
+  color: red;
 }
 
 .square {
