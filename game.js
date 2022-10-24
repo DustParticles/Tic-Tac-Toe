@@ -20,6 +20,7 @@ const gameboard = (function name(params) {
     6: [1, 5, 9],
     7: [3, 5, 7],
   };
+
   let currentTurn = true;
   // elements
   const squares = document.querySelectorAll(".square");
@@ -38,6 +39,21 @@ const gameboard = (function name(params) {
   const returnBackButton = document.querySelector(".go-back-overlay");
   const nameInputs = document.querySelectorAll(".change-name-input");
   const startGameButton = document.querySelector(".start-game");
+
+  function aiMode() {
+    // find available Moves
+    let availableMoves = _checkForAvailableMoves();
+
+    // pick random move
+    let randomMove =
+      availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+    // mark grid with random move and append move to player
+    let griddy = squares[randomMove];
+    console.log(griddy);
+    markGrid({ target: griddy, childNodes: griddy.length });
+  }
+
   let resetGame = () => {
     // clear display grid
     squares.forEach((element) => {
@@ -50,6 +66,18 @@ const gameboard = (function name(params) {
 
     // Make grid clickable
     _enableGrid();
+  };
+
+  const _checkForAvailableMoves = () => {
+    let availableMoves = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let movesUsed = [...player1.playerMoves, ...player1.playerMoves];
+
+    for (const item of movesUsed) {
+      let itemPostition = availableMoves.indexOf(item);
+      availableMoves.splice(itemPostition, 1);
+    }
+
+    return availableMoves;
   };
 
   let _checkCurrentTurn = (grid) => {
@@ -88,6 +116,7 @@ const gameboard = (function name(params) {
         break;
 
       case _checkForDraw():
+        _disableGrid();
         alert("Majority DRAW");
         break;
       default:
@@ -125,10 +154,9 @@ const gameboard = (function name(params) {
   let _checkConsecutiveDraw = () => {
     let drawResults = _checkForDraw();
     if (drawResults) draws++;
+
     return draws >= 3 && drawResults;
   };
-
-  let _checkIfEmpty = (grid) => grid.childNodes.length;
 
   let toggleOverlay = () => {
     overlay.classList.toggle("overlay-close");
@@ -150,26 +178,26 @@ const gameboard = (function name(params) {
     }
   };
 
-  let markGrid = (grid) => {
-    if (_checkIfEmpty(grid.target)) {
+  let markGrid = (grid, gridIndex, gridLength) => {
+    console.log(typeof grid);
+    console.log(grid);
+    if (gridLength) {
       console.log("already marked");
+
       return;
     }
 
     const move = _checkCurrentTurn(grid);
-    const gridIndex = +grid.target
-      .closest(".square")
-      .getAttribute("data-grid-button");
 
     // append moves to array
     if (currentTurn) {
-      player1.playerMoves.push(gridIndex);
+      player1.playerMoves.push(+gridIndex);
     } else {
-      player2.playerMoves.push(gridIndex);
+      player2.playerMoves.push(+gridIndex);
     }
 
     // display
-    grid.target.innerHTML = move;
+    grid.innerHTML = move;
 
     _checkIfSomeoneWon();
     _changeTurn();
@@ -191,16 +219,20 @@ const gameboard = (function name(params) {
     toggleOverlay,
 
     _checkForDraw,
+    _checkForAvailableMoves,
+    aiMode,
   };
 })();
 
 // listen for when clicked
 gameboard.squares.forEach((square) =>
-  addEventListener("click", gameboard.markGrid)
+  square.addEventListener("click", (grid) => {
+    let gridTarget = grid.target;
+    let gridLength = gridTarget.childNodes.length;
+    let gridIndex = gridTarget.getAttribute("data-grid-button");
+    gameboard.markGrid(gridTarget, gridIndex, gridLength);
+  })
 );
-
-/* let gamething = document.querySelector(".gameboard");
-gamething.addEventListener("click", gameboard.markGrid); */
 
 // listen to when player alters name
 gameboard.nameInputs.forEach((nameInput) => {
