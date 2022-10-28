@@ -11,14 +11,14 @@ const gameboard = (function name(params) {
   let player2 = Player();
   let draws = 0;
   const _allPossibleWinningMoves = {
-    0: [1, 2, 3],
-    1: [4, 5, 6],
-    2: [7, 8, 9],
-    3: [1, 4, 7],
-    4: [2, 5, 8],
-    5: [3, 6, 9],
-    6: [1, 5, 9],
-    7: [3, 5, 7],
+    0: [0, 1, 2],
+    1: [3, 4, 5],
+    2: [6, 7, 8],
+    3: [0, 3, 6],
+    4: [1, 4, 7],
+    5: [2, 5, 8],
+    6: [0, 4, 8],
+    7: [2, 4, 6],
   };
 
   let currentTurn = true;
@@ -50,8 +50,10 @@ const gameboard = (function name(params) {
 
     // mark grid with random move and append move to player
     let griddy = squares[randomMove];
-    console.log(griddy);
-    markGrid({ target: griddy, childNodes: griddy.length });
+
+    /* let griddyLength = griddy.length; */
+    console.log(randomMove);
+    markGrid(griddy, randomMove, 0);
   }
 
   let resetGame = () => {
@@ -69,12 +71,12 @@ const gameboard = (function name(params) {
   };
 
   const _checkForAvailableMoves = () => {
-    let availableMoves = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let movesUsed = [...player1.playerMoves, ...player1.playerMoves];
-
+    let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let movesUsed = [...player1.playerMoves, ...player2.playerMoves];
+    console.log(movesUsed);
     for (const item of movesUsed) {
-      let itemPostition = availableMoves.indexOf(item);
-      availableMoves.splice(itemPostition, 1);
+      let itemPosition = availableMoves.indexOf(item);
+      availableMoves.splice(itemPosition, 1);
     }
 
     return availableMoves;
