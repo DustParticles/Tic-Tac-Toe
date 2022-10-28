@@ -457,6 +457,12 @@ main {
   grid-template-rows: repeat(2, 1fr);
 }
 
+.gameboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .player-1-container,
 .player-2-container {
   display: flex;
