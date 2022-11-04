@@ -51,6 +51,9 @@ const gameboard = (function name(params) {
   const startGameButton = document.querySelector(".start-game");
 
   function aiMode() {
+    // Prevent user from marking grid when its robots turn
+    _disableGrid();
+
     // find available Moves
     let availableMoves = _checkForAvailableMoves();
 
@@ -62,6 +65,7 @@ const gameboard = (function name(params) {
     let griddy = squares[randomMove];
 
     markGrid(griddy, randomMove, 0);
+    _enableGrid();
   }
 
   let resetGame = () => {
@@ -82,9 +86,11 @@ const gameboard = (function name(params) {
 
     // Check if it is robots turn
     if (player1.isRobot && currentTurn == true) {
-      aiMode();
+      _disableGrid();
+      setTimeout(aiMode, 2000);
     } else if (player2.isRobot && currentTurn == false) {
-      aiMode();
+      _disableGrid();
+      setTimeout(aiMode, 2000);
     }
     // Check if both players are robots
     else if (player1.isRobot && player2.isRobot) {
@@ -209,7 +215,8 @@ const gameboard = (function name(params) {
       return;
     }
     while (_winStatus) {
-      aiMode();
+      _disableGrid();
+      setTimeout(aiMode, 2000);
     }
   };
 
@@ -227,9 +234,11 @@ const gameboard = (function name(params) {
     // check if player1 and player2 is a bot
     // if so make call aiMode
     else if (player1.isRobot && _isGridClickable && currentTurn == true) {
-      aiMode();
+      _disableGrid();
+      setTimeout(aiMode, 2000);
     } else if (player2.isRobot && _isGridClickable && currentTurn == false) {
-      aiMode();
+      _disableGrid();
+      setTimeout(aiMode, 2000);
     }
 
     // prevent user from making a move when it is the bots turn
@@ -294,9 +303,12 @@ const gameboard = (function name(params) {
       return;
     }
     if (player1.isRobot && currentTurn == true) {
-      aiMode();
+      _disableGrid();
+
+      setTimeout(aiMode, 2000);
     } else if (player2.isRobot && currentTurn == false) {
-      aiMode();
+      _disableGrid();
+      setTimeout(aiMode, 2000);
     }
   };
 
