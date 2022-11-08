@@ -564,8 +564,15 @@ main {
   justify-content: center;
   align-items: center;
   outline: 2px solid black;
+  border: none;
   background-color: transparent;
   font-size: 8vh;
+}
+
+.square:disabled {
+  color: rgba(0, 0, 0, 1);
+  border: none;
+  outline: 2px solid black;
 }
 
 .xbox-mini-fridge {

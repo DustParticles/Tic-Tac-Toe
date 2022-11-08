@@ -10,8 +10,7 @@ const gameboard = (function name(params) {
   let player1 = Player();
   let player2 = Player();
   let _draws = 0;
-  let _isGridClickable = true;
-  let _winStatus = true;
+  let _isGameFinished = false;
   const _allPossibleWinningMoves = {
     0: [0, 1, 2],
     1: [3, 4, 5],
@@ -52,7 +51,7 @@ const gameboard = (function name(params) {
 
   function aiMode() {
     // Prevent user from marking grid when its robots turn
-    _disableGrid();
+    /* _disableGrid(); */
 
     // find available Moves
     let availableMoves = _checkForAvailableMoves();
@@ -65,37 +64,43 @@ const gameboard = (function name(params) {
     let griddy = squares[randomMove];
 
     markGrid(griddy, randomMove, 0);
-    _enableGrid();
+
+    if (!(player1.isRobot && player2.isRobot)) _enableGrid();
   }
 
-  let resetGame = () => {
-    // clear display grid
-    squares.forEach((element) => {
-      element.innerHTML = "";
-    });
+  let resetGame = async () => {
+    // Check if game is still in progress
+    if (!_isGameFinished) return;
+
+    // reset state
+    _isGameFinished = false;
 
     // reset array grid
     player1.playerMoves = [];
     player2.playerMoves = [];
 
-    // reset state
-    _winStatus = true;
+    // clear display grid
+    squares.forEach((element) => {
+      element.innerHTML = "";
+    });
 
-    // Make grid clickable
-    _enableGrid();
-
-    // Check if it is robots turn
-    if (player1.isRobot && currentTurn == true) {
-      _disableGrid();
-      setTimeout(aiMode, 2000);
-    } else if (player2.isRobot && currentTurn == false) {
-      _disableGrid();
-      setTimeout(aiMode, 2000);
-    }
     // Check if both players are robots
-    else if (player1.isRobot && player2.isRobot) {
+    if (player1.isRobot && player2.isRobot) {
+      _disableGrid();
       autoPlay();
     }
+
+    // Check if it is robots turn
+    else if (player1.isRobot && currentTurn == true) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    } else if (player2.isRobot && currentTurn == false) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    }
+
+    // Make grid clickable
+    else _enableGrid();
   };
 
   const _checkForAvailableMoves = () => {
@@ -132,24 +137,29 @@ const gameboard = (function name(params) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
         _disableGrid();
+        _isGameFinished = true;
         _draws = 0;
+
         let winner = currentTurn ? player1 : player2;
-        alert(winner.name);
         winner.wins++;
+        alert(winner.name);
+
         _changeScoreboard(winner.wins);
-        _winStatus = !_winStatus;
         console.log("it is in fact true i did flabberdaeus");
         break;
 
       case _checkConsecutiveDraw():
+        _disableGrid();
+        _isGameFinished = true;
+
         alert(`${_draws} in a row draw!`);
-        _winStatus = !_winStatus;
         break;
 
       case _checkForDraw():
         _disableGrid();
+        _isGameFinished = true;
+
         alert("Majority DRAW");
-        _winStatus = !_winStatus;
         break;
       default:
         console.log("it is in fact false i did flabberastronomically");
@@ -210,14 +220,16 @@ const gameboard = (function name(params) {
     overlay.classList.toggle("close");
   };
 
-  let autoPlay = () => {
-    if (!_winStatus) {
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  let autoPlay = async () => {
+    _disableGrid();
+
+    if (_isGameFinished) {
       return;
     }
-    while (_winStatus) {
-      _disableGrid();
-      setTimeout(aiMode, 2000);
-    }
+    await sleep(400);
+    aiMode();
   };
 
   // when player clicks start ai will make move
@@ -225,23 +237,27 @@ const gameboard = (function name(params) {
     // Toggle overlay
     toggleOverlay();
 
-    // check if player1 and player2 are bots
-    // if so make them run continuously
-    if (player1.isRobot && player2.isRobot && !_winStatus) {
+    // If game is over return
+    if (_isGameFinished) {
+      return;
+    }
+
+    // Check if player1 and player2 are bots
+    // If so make them run continuously
+    else if (player1.isRobot && player2.isRobot) {
+      _disableGrid();
       autoPlay();
     }
 
-    // check if player1 and player2 is a bot
-    // if so make call aiMode
-    else if (player1.isRobot && _isGridClickable && currentTurn == true) {
+    // Check if player1 and player2 is a bot
+    // If so make call aiMode
+    else if (player1.isRobot && currentTurn == true) {
       _disableGrid();
-      setTimeout(aiMode, 2000);
-    } else if (player2.isRobot && _isGridClickable && currentTurn == false) {
+      setTimeout(aiMode, 400);
+    } else if (player2.isRobot && currentTurn == false) {
       _disableGrid();
-      setTimeout(aiMode, 2000);
+      setTimeout(aiMode, 400);
     }
-
-    // prevent user from making a move when it is the bots turn
   };
 
   let toggleAiMode = (button) => {
@@ -256,7 +272,6 @@ const gameboard = (function name(params) {
   };
 
   let _disableGrid = () => {
-    _isGridClickable = false;
     let increment = 0;
     while (increment < squares.length) {
       squares[increment].setAttribute("disabled", "disabled");
@@ -265,7 +280,6 @@ const gameboard = (function name(params) {
   };
 
   let _enableGrid = () => {
-    _isGridClickable = true;
     let increment = 0;
     while (increment < squares.length) {
       squares[increment].removeAttribute("disabled");
@@ -274,11 +288,8 @@ const gameboard = (function name(params) {
   };
 
   let markGrid = (grid, gridIndex, gridLength) => {
-    console.log(typeof grid);
-    console.log(grid);
     if (gridLength) {
       console.log("already marked");
-
       return;
     }
 
@@ -291,24 +302,21 @@ const gameboard = (function name(params) {
       player2.playerMoves.push(+gridIndex);
     }
 
-    // display
+    // Display move
     grid.innerHTML = move;
 
     _checkIfSomeoneWon();
     _changeTurn();
 
-    // check if the next player will be a robot
-    // if so then automatically call the aiMode
-    if (!_winStatus) {
-      return;
-    }
-    if (player1.isRobot && currentTurn == true) {
+    if (_isGameFinished) return;
+    // Check if the next player will be a robot
+    else if (player1.isRobot && currentTurn == true) {
       _disableGrid();
 
-      setTimeout(aiMode, 2000);
+      setTimeout(aiMode, 400);
     } else if (player2.isRobot && currentTurn == false) {
       _disableGrid();
-      setTimeout(aiMode, 2000);
+      setTimeout(aiMode, 400);
     }
   };
 
