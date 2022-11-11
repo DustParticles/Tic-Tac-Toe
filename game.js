@@ -106,7 +106,7 @@ const gameboard = (function name(params) {
   const _checkForAvailableMoves = () => {
     let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let movesUsed = [...player1.playerMoves, ...player2.playerMoves];
-    console.log(movesUsed);
+
     for (const item of movesUsed) {
       let itemPosition = availableMoves.indexOf(item);
       availableMoves.splice(itemPosition, 1);
@@ -145,7 +145,6 @@ const gameboard = (function name(params) {
         alert(winner.name);
 
         _changeScoreboard(winner.wins);
-        console.log("it is in fact true i did flabberdaeus");
         break;
 
       case _checkConsecutiveDraw():
@@ -162,7 +161,6 @@ const gameboard = (function name(params) {
         alert("Majority DRAW");
         break;
       default:
-        console.log("it is in fact false i did flabberastronomically");
     }
   };
 
@@ -207,13 +205,8 @@ const gameboard = (function name(params) {
     let playerButtonID = x.target.getAttribute("data-player");
 
     // Change player state
-    if (playerButtonID == "player1") {
-      console.log("plyer1 change");
-      player1.isRobot = !player1.isRobot;
-    } else {
-      console.log("plyer2 change");
-      player2.isRobot = !player2.isRobot;
-    }
+    if (playerButtonID == "player1") player1.isRobot = !player1.isRobot;
+    else player2.isRobot = !player2.isRobot;
   };
 
   let toggleOverlay = () => {
@@ -232,8 +225,23 @@ const gameboard = (function name(params) {
     aiMode();
   };
 
-  // when player clicks start ai will make move
+  let _changeName = (person, displayName) => {
+    person.name = "Billy";
+    displayName.innerText = "Billy";
+  };
+
   let startGame = () => {
+    // Check if player1/player2 names are empty
+    if (player1.name == undefined) {
+      _changeName(player1, displayName1);
+    }
+
+    if (player2.name == undefined) {
+      _changeName(player2, displayName2);
+    }
+
+    // If true change name
+
     // Toggle overlay
     toggleOverlay();
 
@@ -320,21 +328,31 @@ const gameboard = (function name(params) {
     }
   };
 
+  // Listen to when player alters name
+  nameInputs.forEach((nameInput) => {
+    nameInput.addEventListener("change", () => {
+      // Check if input value is empty
+      nameInput.value = nameInput.value.trim() ? nameInput.value : "bob";
+
+      // Change player name
+      if (nameInput.id === "player-1") {
+        player1.name = nameInput.value;
+        displayName1.innerText = nameInput.value;
+      } else {
+        player2.name = nameInput.value;
+        displayName2.innerText = nameInput.value;
+      }
+    });
+  });
+
   return {
-    robotIcon: robotIconPlayer1,
-    karateIcon: karateIconPlayer1,
     markGrid,
     squares,
     resetButton,
     overlay,
-    nameInputs,
     returnBackButton,
     resetGame,
     startGameButton,
-    player1,
-    player2,
-    displayName1,
-    displayName2,
     toggleOverlay,
     toggleAiMode,
     changePlayerMode,
@@ -357,25 +375,6 @@ gameboard.squares.forEach((square) =>
     gameboard.markGrid(gridTarget, gridIndex, gridLength);
   })
 );
-
-/* REMEMBER TO PUT THIS IN GAME BOARD INSTEAD OF OUTSIDE FOR SECURITY? */
-// listen to when player alters name
-gameboard.nameInputs.forEach((nameInput) => {
-  nameInput.addEventListener("change", (event) => {
-    // check if input value is empty
-    nameInput.value = nameInput.value.trim() ? nameInput.value : "bob";
-
-    if (nameInput.id === "player-1") {
-      console.log(nameInput.value, "player 1 chang");
-      gameboard.player1.name = nameInput.value;
-      gameboard.displayName1.innerText = nameInput.value;
-    } else {
-      console.log("player 2 chainge");
-      gameboard.player2.name = nameInput.value;
-      gameboard.displayName2.innerText = nameInput.value;
-    }
-  });
-});
 
 gameboard.resetButton.addEventListener("click", gameboard.resetGame);
 
