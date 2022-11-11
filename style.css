@@ -369,6 +369,12 @@ template {
 * {
   margin: 0%;
   padding: 0%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .default-button-style:hover {
@@ -431,7 +437,7 @@ header {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.overlay-close {
+.close {
   display: none;
 }
 
@@ -439,8 +445,8 @@ header {
   animation: blinker 1s linear infinite;
 }
 
-.start-game,
-.start-game:hover {
+.start-gamer-text,
+.start-gamer-text:hover {
   font-family: SilkScreenBold;
 }
 
@@ -492,7 +498,7 @@ main {
 .player-2-name {
   font-weight: 900;
   font-size: 1.5em;
-  font-family: SilkScreenBold, system-ui, -apple-system, BlinkMacSystemFont,
+  font-family: SilkScreenRegular, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
     sans-serif;
 }
@@ -520,6 +526,7 @@ main {
   grid-template-rows: repeat(3, minmax(20px, 1fr));
   width: 258px;
   height: 250px;
+  font-family: "SilkScreenBold";
 }
 
 .game-button-container {
@@ -563,8 +570,15 @@ main {
   justify-content: center;
   align-items: center;
   outline: 2px solid black;
+  border: none;
   background-color: transparent;
   font-size: 8vh;
+}
+
+.square:disabled {
+  color: rgba(0, 0, 0, 1);
+  border: none;
+  outline: 2px solid black;
 }
 
 .xbox-mini-fridge {

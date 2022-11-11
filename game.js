@@ -1,32 +1,42 @@
 const Player = function players() {
   let name;
   let wins = 0;
-
+  let isRobot = false;
   let playerMoves = [];
-  return { playerMoves, name, wins };
+  return { playerMoves, name, wins, isRobot };
 };
 
 const gameboard = (function name(params) {
   let player1 = Player();
   let player2 = Player();
-  let draws = 0;
+  let _draws = 0;
+  let _isGameFinished = false;
   const _allPossibleWinningMoves = {
-    0: [1, 2, 3],
-    1: [4, 5, 6],
-    2: [7, 8, 9],
-    3: [1, 4, 7],
-    4: [2, 5, 8],
-    5: [3, 6, 9],
-    6: [1, 5, 9],
-    7: [3, 5, 7],
+    0: [0, 1, 2],
+    1: [3, 4, 5],
+    2: [6, 7, 8],
+    3: [0, 3, 6],
+    4: [1, 4, 7],
+    5: [2, 5, 8],
+    6: [0, 4, 8],
+    7: [2, 4, 6],
   };
+
   let currentTurn = true;
   // elements
   const squares = document.querySelectorAll(".square");
   const overlay = document.querySelector(".overlay");
 
+  const karateIconPlayer1 = document.querySelector(".toggle-human-mode-1");
+  const robotIconPlayer1 = document.querySelector(".toggle-ai-mode-1");
+
+  const karateIconPlayer2 = document.querySelector(".toggle-human-mode-2");
+  const robotIconPlayer2 = document.querySelector(".toggle-ai-mode-2");
+
   const displayName1 = document.querySelector(".player-1-name");
   const displayName2 = document.querySelector(".player-2-name");
+
+  const playerModeButton1 = document.querySelectorAll("[data-player]");
 
   const scoreboard = {
     scoreOne: document.querySelector(".player-score-one"),
@@ -38,21 +48,74 @@ const gameboard = (function name(params) {
   const returnBackButton = document.querySelector(".go-back-overlay");
   const nameInputs = document.querySelectorAll(".change-name-input");
   const startGameButton = document.querySelector(".start-game");
-  let resetGame = () => {
-    // clear display grid
-    squares.forEach((element) => {
-      element.innerHTML = "";
-    });
+
+  function aiMode() {
+    // Prevent user from marking grid when its robots turn
+    /* _disableGrid(); */
+
+    // find available Moves
+    let availableMoves = _checkForAvailableMoves();
+
+    // pick random move
+    let randomMove =
+      availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+    // mark grid with random move and append move to player
+    let griddy = squares[randomMove];
+
+    markGrid(griddy, randomMove, 0);
+
+    if (!(player1.isRobot && player2.isRobot)) _enableGrid();
+  }
+
+  let resetGame = async () => {
+    // Check if game is still in progress
+    if (!_isGameFinished) return;
+
+    // reset state
+    _isGameFinished = false;
 
     // reset array grid
     player1.playerMoves = [];
     player2.playerMoves = [];
 
+    // clear display grid
+    squares.forEach((element) => {
+      element.innerHTML = "";
+    });
+
+    // Check if both players are robots
+    if (player1.isRobot && player2.isRobot) {
+      _disableGrid();
+      autoPlay();
+    }
+
+    // Check if it is robots turn
+    else if (player1.isRobot && currentTurn == true) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    } else if (player2.isRobot && currentTurn == false) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    }
+
     // Make grid clickable
-    _enableGrid();
+    else _enableGrid();
   };
 
-  let _checkCurrentTurn = (grid) => {
+  const _checkForAvailableMoves = () => {
+    let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let movesUsed = [...player1.playerMoves, ...player2.playerMoves];
+    console.log(movesUsed);
+    for (const item of movesUsed) {
+      let itemPosition = availableMoves.indexOf(item);
+      availableMoves.splice(itemPosition, 1);
+    }
+
+    return availableMoves;
+  };
+
+  let _checkCurrentTurn = () => {
     const nintendo = "X";
     const ps4 = "O";
 
@@ -74,20 +137,28 @@ const gameboard = (function name(params) {
       case _checkIfInside(player1.playerMoves):
       case _checkIfInside(player2.playerMoves):
         _disableGrid();
-        draws = 0;
-        let winner = currentTurn ? player1 : player2;
-        alert(winner.name);
-        winner.wins++;
-        _changeScoreboard(winner.wins);
+        _isGameFinished = true;
+        _draws = 0;
 
+        let winner = currentTurn ? player1 : player2;
+        winner.wins++;
+        alert(winner.name);
+
+        _changeScoreboard(winner.wins);
         console.log("it is in fact true i did flabberdaeus");
         break;
 
       case _checkConsecutiveDraw():
-        alert(`${draws} in a row draw!`);
+        _disableGrid();
+        _isGameFinished = true;
+
+        alert(`${_draws} in a row draw!`);
         break;
 
       case _checkForDraw():
+        _disableGrid();
+        _isGameFinished = true;
+
         alert("Majority DRAW");
         break;
       default:
@@ -96,8 +167,8 @@ const gameboard = (function name(params) {
   };
 
   let _checkIfInside = (playerMoves) => {
-    // make sure player has marked atleast 3 times
-    if (playerMoves < 3) return false;
+    // make sure player has marked at least 3 times
+    if (playerMoves.length < 3) return false;
 
     // iterate through all possible win conditions
     for (
@@ -124,14 +195,80 @@ const gameboard = (function name(params) {
 
   let _checkConsecutiveDraw = () => {
     let drawResults = _checkForDraw();
-    if (drawResults) draws++;
-    return draws >= 3 && drawResults;
+    if (drawResults) _draws++;
+
+    return _draws >= 3 && drawResults;
   };
 
-  let _checkIfEmpty = (grid) => grid.childNodes.length;
+  let changePlayerMode = (x) => {
+    // Check which button to change status
+    toggleAiMode(x.target.classList);
+
+    let playerButtonID = x.target.getAttribute("data-player");
+
+    // Change player state
+    if (playerButtonID == "player1") {
+      console.log("plyer1 change");
+      player1.isRobot = !player1.isRobot;
+    } else {
+      console.log("plyer2 change");
+      player2.isRobot = !player2.isRobot;
+    }
+  };
 
   let toggleOverlay = () => {
-    overlay.classList.toggle("overlay-close");
+    overlay.classList.toggle("close");
+  };
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  let autoPlay = async () => {
+    _disableGrid();
+
+    if (_isGameFinished) {
+      return;
+    }
+    await sleep(400);
+    aiMode();
+  };
+
+  // when player clicks start ai will make move
+  let startGame = () => {
+    // Toggle overlay
+    toggleOverlay();
+
+    // If game is over return
+    if (_isGameFinished) {
+      return;
+    }
+
+    // Check if player1 and player2 are bots
+    // If so make them run continuously
+    else if (player1.isRobot && player2.isRobot) {
+      _disableGrid();
+      autoPlay();
+    }
+
+    // Check if player1 and player2 is a bot
+    // If so make call aiMode
+    else if (player1.isRobot && currentTurn == true) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    } else if (player2.isRobot && currentTurn == false) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    }
+  };
+
+  let toggleAiMode = (button) => {
+    // change button visibility
+    if (button == "toggle-human-mode-1" || button == "toggle-ai-mode-1") {
+      karateIconPlayer1.classList.toggle("close");
+      robotIconPlayer1.classList.toggle("close");
+    } else {
+      karateIconPlayer2.classList.toggle("close");
+      robotIconPlayer2.classList.toggle("close");
+    }
   };
 
   let _disableGrid = () => {
@@ -150,32 +287,42 @@ const gameboard = (function name(params) {
     }
   };
 
-  let markGrid = (grid) => {
-    if (_checkIfEmpty(grid.target)) {
+  let markGrid = (grid, gridIndex, gridLength) => {
+    if (gridLength) {
       console.log("already marked");
       return;
     }
 
     const move = _checkCurrentTurn(grid);
-    const gridIndex = +grid.target
-      .closest(".square")
-      .getAttribute("data-grid-button");
 
     // append moves to array
     if (currentTurn) {
-      player1.playerMoves.push(gridIndex);
+      player1.playerMoves.push(+gridIndex);
     } else {
-      player2.playerMoves.push(gridIndex);
+      player2.playerMoves.push(+gridIndex);
     }
 
-    // display
-    grid.target.innerHTML = move;
+    // Display move
+    grid.innerHTML = move;
 
     _checkIfSomeoneWon();
     _changeTurn();
+
+    if (_isGameFinished) return;
+    // Check if the next player will be a robot
+    else if (player1.isRobot && currentTurn == true) {
+      _disableGrid();
+
+      setTimeout(aiMode, 400);
+    } else if (player2.isRobot && currentTurn == false) {
+      _disableGrid();
+      setTimeout(aiMode, 400);
+    }
   };
 
   return {
+    robotIcon: robotIconPlayer1,
+    karateIcon: karateIconPlayer1,
     markGrid,
     squares,
     resetButton,
@@ -189,19 +336,29 @@ const gameboard = (function name(params) {
     displayName1,
     displayName2,
     toggleOverlay,
+    toggleAiMode,
+    changePlayerMode,
 
     _checkForDraw,
+    _checkForAvailableMoves,
+    aiMode,
+    startGame,
+
+    playerModeButton1,
   };
 })();
 
 // listen for when clicked
 gameboard.squares.forEach((square) =>
-  addEventListener("click", gameboard.markGrid)
+  square.addEventListener("click", (grid) => {
+    let gridTarget = grid.target;
+    let gridLength = gridTarget.childNodes.length;
+    let gridIndex = gridTarget.getAttribute("data-grid-button");
+    gameboard.markGrid(gridTarget, gridIndex, gridLength);
+  })
 );
 
-/* let gamething = document.querySelector(".gameboard");
-gamething.addEventListener("click", gameboard.markGrid); */
-
+/* REMEMBER TO PUT THIS IN GAME BOARD INSTEAD OF OUTSIDE FOR SECURITY? */
 // listen to when player alters name
 gameboard.nameInputs.forEach((nameInput) => {
   nameInput.addEventListener("change", (event) => {
@@ -224,4 +381,12 @@ gameboard.resetButton.addEventListener("click", gameboard.resetGame);
 
 gameboard.returnBackButton.addEventListener("click", gameboard.toggleOverlay);
 
-gameboard.startGameButton.addEventListener("click", gameboard.toggleOverlay);
+gameboard.startGameButton.addEventListener("click", gameboard.startGame);
+
+/* [gameboard.karateIcon, gameboard.robotIcon].forEach((x) => {
+  x.addEventListener("click", gameboard.toggleAiMode);
+}); */
+
+gameboard.playerModeButton1.forEach((x) => {
+  x.addEventListener("click", gameboard.changePlayerMode);
+});
