@@ -1,3 +1,5 @@
+import names from "./names.json" assert { type: "json" };
+console.log(names);
 const Player = function players() {
   let name;
   let wins = 0;
@@ -6,24 +8,7 @@ const Player = function players() {
   return { playerMoves, name, wins, isRobot };
 };
 
-const gameboard = (function name(params) {
-  let player1 = Player();
-  let player2 = Player();
-  let _draws = 0;
-  let _isGameFinished = false;
-  const _allPossibleWinningMoves = {
-    0: [0, 1, 2],
-    1: [3, 4, 5],
-    2: [6, 7, 8],
-    3: [0, 3, 6],
-    4: [1, 4, 7],
-    5: [2, 5, 8],
-    6: [0, 4, 8],
-    7: [2, 4, 6],
-  };
-
-  let currentTurn = true;
-  // elements
+const nodeElements = (function () {
   const squares = document.querySelectorAll(".square");
   const overlay = document.querySelector(".overlay");
 
@@ -43,25 +28,56 @@ const gameboard = (function name(params) {
     scoreTwo: document.querySelector(".player-score-two"),
   };
 
-  // buttons
   const resetButton = document.querySelector(".reset-button");
   const returnBackButton = document.querySelector(".go-back-overlay");
   const nameInputs = document.querySelectorAll(".change-name-input");
   const startGameButton = document.querySelector(".start-game");
+  return {
+    squares,
+    overlay,
+    karateIconPlayer1,
+    robotIconPlayer1,
+    karateIconPlayer2,
+    robotIconPlayer2,
+    displayName1,
+    displayName2,
+    playerModeButton1,
+    scoreboard,
+    resetButton,
+    returnBackButton,
+    nameInputs,
+    startGameButton,
+  };
+})();
+
+const gameboard = (function name(params) {
+  let _draws = 0;
+  let _isGameFinished = false;
+  let currentTurn = true;
+
+  const _allPossibleWinningMoves = {
+    0: [0, 1, 2],
+    1: [3, 4, 5],
+    2: [6, 7, 8],
+    3: [0, 3, 6],
+    4: [1, 4, 7],
+    5: [2, 5, 8],
+    6: [0, 4, 8],
+    7: [2, 4, 6],
+  };
+
+  let player1 = Player();
+  let player2 = Player();
 
   function aiMode() {
-    // Prevent user from marking grid when its robots turn
-    /* _disableGrid(); */
-
     // find available Moves
     let availableMoves = _checkForAvailableMoves();
 
     // pick random move
-    let randomMove =
-      availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    let randomMove = availableMoves[_randomNumber(availableMoves.length)];
 
     // mark grid with random move and append move to player
-    let griddy = squares[randomMove];
+    let griddy = nodeElements.squares[randomMove];
 
     markGrid(griddy, randomMove, 0);
 
@@ -72,41 +88,43 @@ const gameboard = (function name(params) {
     // Check if game is still in progress
     if (!_isGameFinished) return;
 
-    // reset state
+    // Reset state
     _isGameFinished = false;
 
-    // reset array grid
+    // Reset array grid
     player1.playerMoves = [];
     player2.playerMoves = [];
 
-    // clear display grid
-    squares.forEach((element) => {
+    // Clear display grid
+    nodeElements.squares.forEach((element) => {
       element.innerHTML = "";
     });
 
-    // Check if both players are robots
-    if (player1.isRobot && player2.isRobot) {
-      _disableGrid();
-      autoPlay();
-    }
-
     // Check if it is robots turn
-    else if (player1.isRobot && currentTurn == true) {
-      _disableGrid();
-      setTimeout(aiMode, 400);
-    } else if (player2.isRobot && currentTurn == false) {
-      _disableGrid();
-      setTimeout(aiMode, 400);
-    }
+    switch (true) {
+      // Run if both players are robots
+      case player1.isRobot && player2.isRobot:
+        _disableGrid();
+        autoPlay();
+        break;
 
-    // Make grid clickable
-    else _enableGrid();
+      case player1.isRobot && currentTurn == true:
+      case player2.isRobot && currentTurn == false:
+        _disableGrid();
+        setTimeout(aiMode, 400);
+        break;
+
+      default:
+        _enableGrid();
+        break;
+    }
   };
 
   const _checkForAvailableMoves = () => {
     let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     let movesUsed = [...player1.playerMoves, ...player2.playerMoves];
 
+    // Remove numbers from availableMoves that have already been made
     for (const item of movesUsed) {
       let itemPosition = availableMoves.indexOf(item);
       availableMoves.splice(itemPosition, 1);
@@ -120,6 +138,7 @@ const gameboard = (function name(params) {
     const ps4 = "O";
 
     const move = currentTurn ? nintendo : ps4;
+
     return move;
   };
 
@@ -127,8 +146,8 @@ const gameboard = (function name(params) {
 
   const _changeScoreboard = (winner) => {
     let scoreboardElement = currentTurn
-      ? scoreboard.scoreOne
-      : scoreboard.scoreTwo;
+      ? nodeElements.scoreboard.scoreOne
+      : nodeElements.scoreboard.scoreTwo;
     scoreboardElement.innerText = winner;
   };
 
@@ -198,6 +217,16 @@ const gameboard = (function name(params) {
     return _draws >= 3 && drawResults;
   };
 
+  let _changeName = (person, displayName) => {
+    let randomName = names[_randomNumber(names.length)];
+    person.name = randomName;
+    displayName.innerText = randomName;
+  };
+
+  let _randomNumber = (listLength) => {
+    return Math.floor(Math.random() * listLength);
+  };
+
   let changePlayerMode = (x) => {
     // Check which button to change status
     toggleAiMode(x.target.classList);
@@ -210,7 +239,7 @@ const gameboard = (function name(params) {
   };
 
   let toggleOverlay = () => {
-    overlay.classList.toggle("close");
+    nodeElements.overlay.classList.toggle("close");
   };
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -225,22 +254,15 @@ const gameboard = (function name(params) {
     aiMode();
   };
 
-  let _changeName = (person, displayName) => {
-    person.name = "Billy";
-    displayName.innerText = "Billy";
-  };
-
   let startGame = () => {
     // Check if player1/player2 names are empty
     if (player1.name == undefined) {
-      _changeName(player1, displayName1);
+      _changeName(player1, nodeElements.displayName1);
     }
 
     if (player2.name == undefined) {
-      _changeName(player2, displayName2);
+      _changeName(player2, nodeElements.displayName2);
     }
-
-    // If true change name
 
     // Toggle overlay
     toggleOverlay();
@@ -271,26 +293,26 @@ const gameboard = (function name(params) {
   let toggleAiMode = (button) => {
     // change button visibility
     if (button == "toggle-human-mode-1" || button == "toggle-ai-mode-1") {
-      karateIconPlayer1.classList.toggle("close");
-      robotIconPlayer1.classList.toggle("close");
+      nodeElements.karateIconPlayer1.classList.toggle("close");
+      nodeElements.robotIconPlayer1.classList.toggle("close");
     } else {
-      karateIconPlayer2.classList.toggle("close");
-      robotIconPlayer2.classList.toggle("close");
+      nodeElements.karateIconPlayer2.classList.toggle("close");
+      nodeElements.robotIconPlayer2.classList.toggle("close");
     }
   };
 
   let _disableGrid = () => {
     let increment = 0;
-    while (increment < squares.length) {
-      squares[increment].setAttribute("disabled", "disabled");
+    while (increment < nodeElements.squares.length) {
+      nodeElements.squares[increment].setAttribute("disabled", "disabled");
       ++increment;
     }
   };
 
   let _enableGrid = () => {
     let increment = 0;
-    while (increment < squares.length) {
-      squares[increment].removeAttribute("disabled");
+    while (increment < nodeElements.squares.length) {
+      nodeElements.squares[increment].removeAttribute("disabled");
       ++increment;
     }
   };
@@ -329,63 +351,43 @@ const gameboard = (function name(params) {
   };
 
   // Listen to when player alters name
-  nameInputs.forEach((nameInput) => {
+  nodeElements.nameInputs.forEach((nameInput) => {
     nameInput.addEventListener("change", () => {
       // Check if input value is empty
-      nameInput.value = nameInput.value.trim() ? nameInput.value : "bob";
+      nameInput.value = nameInput.value.trim()
+        ? nameInput.value
+        : names[_randomNumber(names.length)];
 
       // Change player name
       if (nameInput.id === "player-1") {
         player1.name = nameInput.value;
-        displayName1.innerText = nameInput.value;
+        nodeElements.displayName1.innerText = nameInput.value;
       } else {
         player2.name = nameInput.value;
-        displayName2.innerText = nameInput.value;
+        nodeElements.displayName2.innerText = nameInput.value;
       }
     });
   });
 
-  return {
-    markGrid,
-    squares,
-    resetButton,
-    overlay,
-    returnBackButton,
-    resetGame,
-    startGameButton,
-    toggleOverlay,
-    toggleAiMode,
-    changePlayerMode,
+  // Detect when grid is clicked
+  nodeElements.squares.forEach((square) =>
+    square.addEventListener("click", (grid) => {
+      let gridTarget = grid.target;
+      let gridLength = gridTarget.childNodes.length;
+      let gridIndex = gridTarget.getAttribute("data-grid-button");
+      markGrid(gridTarget, gridIndex, gridLength);
+    })
+  );
 
-    _checkForDraw,
-    _checkForAvailableMoves,
-    aiMode,
-    startGame,
+  nodeElements.resetButton.addEventListener("click", resetGame);
 
-    playerModeButton1,
-  };
+  nodeElements.returnBackButton.addEventListener("click", toggleOverlay);
+
+  nodeElements.startGameButton.addEventListener("click", startGame);
+
+  nodeElements.playerModeButton1.forEach((x) => {
+    x.addEventListener("click", changePlayerMode);
+  });
+
+  return {};
 })();
-
-// listen for when clicked
-gameboard.squares.forEach((square) =>
-  square.addEventListener("click", (grid) => {
-    let gridTarget = grid.target;
-    let gridLength = gridTarget.childNodes.length;
-    let gridIndex = gridTarget.getAttribute("data-grid-button");
-    gameboard.markGrid(gridTarget, gridIndex, gridLength);
-  })
-);
-
-gameboard.resetButton.addEventListener("click", gameboard.resetGame);
-
-gameboard.returnBackButton.addEventListener("click", gameboard.toggleOverlay);
-
-gameboard.startGameButton.addEventListener("click", gameboard.startGame);
-
-/* [gameboard.karateIcon, gameboard.robotIcon].forEach((x) => {
-  x.addEventListener("click", gameboard.toggleAiMode);
-}); */
-
-gameboard.playerModeButton1.forEach((x) => {
-  x.addEventListener("click", gameboard.changePlayerMode);
-});
