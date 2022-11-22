@@ -11,6 +11,9 @@ const Player = function players() {
 const nodeElements = (function () {
   const squares = document.querySelectorAll(".square");
   const overlay = document.querySelector(".overlay");
+  const popup = document.querySelector(".popup");
+  const popupWinner = document.querySelector(".winner-name");
+  const popupWinStatus = document.querySelector(".popup-win-status");
 
   const karateIconPlayer1 = document.querySelector(".toggle-human-mode-1");
   const robotIconPlayer1 = document.querySelector(".toggle-ai-mode-1");
@@ -28,13 +31,17 @@ const nodeElements = (function () {
     scoreTwo: document.querySelector(".player-score-two"),
   };
 
-  const resetButton = document.querySelector(".reset-button");
+  const popupCloseButton = document.querySelectorAll(".popup-close-button");
+  const resetButton = document.querySelectorAll(".reset-button");
   const returnBackButton = document.querySelector(".go-back-overlay");
   const nameInputs = document.querySelectorAll(".change-name-input");
   const startGameButton = document.querySelector(".start-game");
   return {
     squares,
     overlay,
+    popup,
+    popupWinner,
+    popupWinStatus,
     karateIconPlayer1,
     robotIconPlayer1,
     karateIconPlayer2,
@@ -43,6 +50,7 @@ const nodeElements = (function () {
     displayName2,
     playerModeButton1,
     scoreboard,
+    popupCloseButton,
     resetButton,
     returnBackButton,
     nameInputs,
@@ -160,9 +168,9 @@ const gameboard = (function name(params) {
         _draws = 0;
 
         let winner = currentTurn ? player1 : player2;
-        winner.wins++;
-        alert(winner.name);
 
+        winner.wins++;
+        _alertWinner(winner.name, "WINS");
         _changeScoreboard(winner.wins);
         break;
 
@@ -170,17 +178,25 @@ const gameboard = (function name(params) {
         _disableGrid();
         _isGameFinished = true;
 
-        alert(`${_draws} in a row draw!`);
+        _alertWinner(`${_draws} in a row`, "DRAW");
         break;
 
       case _checkForDraw():
         _disableGrid();
         _isGameFinished = true;
 
-        alert("Majority DRAW");
+        _alertWinner("Majority", "DRAW");
         break;
       default:
     }
+  };
+
+  let _alertWinner = (nameOfWinner, winStatus) => {
+    nodeElements.popupWinner.innerText = `${nameOfWinner}`;
+    nodeElements.popupWinStatus.innerText = winStatus;
+
+    // Alert Winner
+    toggleOverlay(nodeElements.popup);
   };
 
   let _checkIfInside = (playerMoves) => {
@@ -238,8 +254,8 @@ const gameboard = (function name(params) {
     else player2.isRobot = !player2.isRobot;
   };
 
-  let toggleOverlay = () => {
-    nodeElements.overlay.classList.toggle("close");
+  let toggleOverlay = (overlay) => {
+    overlay.classList.toggle("close");
   };
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -265,7 +281,7 @@ const gameboard = (function name(params) {
     }
 
     // Toggle overlay
-    toggleOverlay();
+    toggleOverlay(nodeElements.overlay);
 
     // If game is over return
     if (_isGameFinished) {
@@ -379,9 +395,19 @@ const gameboard = (function name(params) {
     })
   );
 
-  nodeElements.resetButton.addEventListener("click", resetGame);
+  nodeElements.resetButton.forEach((resetButton) => {
+    resetButton.addEventListener("click", resetGame);
+  });
 
-  nodeElements.returnBackButton.addEventListener("click", toggleOverlay);
+  nodeElements.returnBackButton.addEventListener("click", () => {
+    toggleOverlay(nodeElements.overlay);
+  });
+
+  nodeElements.popupCloseButton.forEach((hidePopup) => {
+    hidePopup.addEventListener("click", () => {
+      toggleOverlay(nodeElements.popup);
+    });
+  });
 
   nodeElements.startGameButton.addEventListener("click", startGame);
 
