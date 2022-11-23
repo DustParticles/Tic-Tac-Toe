@@ -370,9 +370,11 @@ const gameboard = (function name(params) {
   nodeElements.nameInputs.forEach((nameInput) => {
     nameInput.addEventListener("change", () => {
       // Check if input value is empty
-      nameInput.value = nameInput.value.trim()
-        ? nameInput.value
-        : names[_randomNumber(names.length)];
+      let inputName = nameInput.value.trim();
+      nameInput.value =
+        !(inputName != "") || inputName.length > 15
+          ? names[_randomNumber(names.length)]
+          : nameInput.value;
 
       // Change player name
       if (nameInput.id === "player-1") {
