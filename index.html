@@ -31,89 +31,93 @@
       </div>
     </div>
     <div class="overlay">
-      <div class="game-settings">
-        <div class="player-1-settings">
-          <button data-player="player1" class="toggle-ai-mode-1 close">
-            <svg
-              class="robot-icon"
-              style="width: 24px; height: 24px"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M22 14H21C21 10.13 17.87 7 14 7H13V5.73C13.6 5.39 14 4.74 14 4C14 2.9 13.11 2 12 2S10 2.9 10 4C10 4.74 10.4 5.39 11 5.73V7H10C6.13 7 3 10.13 3 14H2C1.45 14 1 14.45 1 15V18C1 18.55 1.45 19 2 19H3V20C3 21.11 3.9 22 5 22H19C20.11 22 21 21.11 21 20V19H22C22.55 19 23 18.55 23 18V15C23 14.45 22.55 14 22 14M7.5 18C6.12 18 5 16.88 5 15.5C5 14.68 5.4 13.96 6 13.5L9.83 16.38C9.5 17.32 8.57 18 7.5 18M16.5 18C15.43 18 14.5 17.32 14.17 16.38L18 13.5C18.6 13.96 19 14.68 19 15.5C19 16.88 17.88 18 16.5 18Z"
-              />
-            </svg>
-          </button>
-          <button data-player="player1" class="toggle-human-mode-1">
-            <svg
-              class="karate-icon"
-              style="width: 24px; height: 24px"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M19.8 2L11.6 8.7L10.39 7.66L14 5.58L9.41 1L8 2.41L10.74 5.15L5 8.46L3.81 12.75L6.27 17L8 16L5.97 12.5L6.32 11.18L9.5 13L10 22H12L12.5 12L21 3.4L19.8 2M5 3C6.11 3 7 3.9 7 5S6.11 7 5 7 3 6.11 3 5 3.9 3 5 3Z"
-              />
-            </svg>
-          </button>
-          <label for="player-1">Player 1</label>
-          <input
-            type="text"
-            id="player-1"
-            value=""
-            maxlength="15"
-            class="change-name-input"
-          />
+      <header>
+        <p class="title h1">
+          <a
+            href="https://www.youtube.com/watch?v=Tt7bzxurJ1I&ab_channel=GrayWalf"
+            style="text-decoration: none"
+            >Tic Tac Toe</a
+          >
+        </p>
+      </header>
+      <main>
+        <div class="game-settings">
+          <div class="player-1-settings">
+            <label for="player-1">Player 1</label>
+            <input
+              type="text"
+              id="player-1"
+              value=""
+              maxlength="15"
+              class="change-name-input"
+            /><button data-player="player1" class="toggle-ai-mode-1 close">
+              <svg
+                class="robot-icon"
+                style="width: 24px; height: 24px"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M22 14H21C21 10.13 17.87 7 14 7H13V5.73C13.6 5.39 14 4.74 14 4C14 2.9 13.11 2 12 2S10 2.9 10 4C10 4.74 10.4 5.39 11 5.73V7H10C6.13 7 3 10.13 3 14H2C1.45 14 1 14.45 1 15V18C1 18.55 1.45 19 2 19H3V20C3 21.11 3.9 22 5 22H19C20.11 22 21 21.11 21 20V19H22C22.55 19 23 18.55 23 18V15C23 14.45 22.55 14 22 14M7.5 18C6.12 18 5 16.88 5 15.5C5 14.68 5.4 13.96 6 13.5L9.83 16.38C9.5 17.32 8.57 18 7.5 18M16.5 18C15.43 18 14.5 17.32 14.17 16.38L18 13.5C18.6 13.96 19 14.68 19 15.5C19 16.88 17.88 18 16.5 18Z"
+                />
+              </svg>
+            </button>
+            <button data-player="player1" class="toggle-human-mode-1">
+              <svg
+                class="karate-icon"
+                style="width: 24px; height: 24px"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M19.8 2L11.6 8.7L10.39 7.66L14 5.58L9.41 1L8 2.41L10.74 5.15L5 8.46L3.81 12.75L6.27 17L8 16L5.97 12.5L6.32 11.18L9.5 13L10 22H12L12.5 12L21 3.4L19.8 2M5 3C6.11 3 7 3.9 7 5S6.11 7 5 7 3 6.11 3 5 3.9 3 5 3Z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="player-2-settings">
+            <label for="player-2">Player 2</label>
+            <input
+              type="text"
+              id="player-2"
+              value=""
+              maxlength="15"
+              class="change-name-input"
+            /><button data-player="player2" class="toggle-ai-mode-2 close">
+              <svg
+                class="robot-icon"
+                style="width: 24px; height: 24px"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M22 14H21C21 10.13 17.87 7 14 7H13V5.73C13.6 5.39 14 4.74 14 4C14 2.9 13.11 2 12 2S10 2.9 10 4C10 4.74 10.4 5.39 11 5.73V7H10C6.13 7 3 10.13 3 14H2C1.45 14 1 14.45 1 15V18C1 18.55 1.45 19 2 19H3V20C3 21.11 3.9 22 5 22H19C20.11 22 21 21.11 21 20V19H22C22.55 19 23 18.55 23 18V15C23 14.45 22.55 14 22 14M7.5 18C6.12 18 5 16.88 5 15.5C5 14.68 5.4 13.96 6 13.5L9.83 16.38C9.5 17.32 8.57 18 7.5 18M16.5 18C15.43 18 14.5 17.32 14.17 16.38L18 13.5C18.6 13.96 19 14.68 19 15.5C19 16.88 17.88 18 16.5 18Z"
+                />
+              </svg>
+            </button>
+            <button data-player="player2" class="toggle-human-mode-2">
+              <svg
+                class="karate-icon"
+                style="width: 24px; height: 24px"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M19.8 2L11.6 8.7L10.39 7.66L14 5.58L9.41 1L8 2.41L10.74 5.15L5 8.46L3.81 12.75L6.27 17L8 16L5.97 12.5L6.32 11.18L9.5 13L10 22H12L12.5 12L21 3.4L19.8 2M5 3C6.11 3 7 3.9 7 5S6.11 7 5 7 3 6.11 3 5 3.9 3 5 3Z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-
-        <div class="player-2-settings">
-          <button data-player="player2" class="toggle-ai-mode-2 close">
-            <svg
-              class="robot-icon"
-              style="width: 24px; height: 24px"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M22 14H21C21 10.13 17.87 7 14 7H13V5.73C13.6 5.39 14 4.74 14 4C14 2.9 13.11 2 12 2S10 2.9 10 4C10 4.74 10.4 5.39 11 5.73V7H10C6.13 7 3 10.13 3 14H2C1.45 14 1 14.45 1 15V18C1 18.55 1.45 19 2 19H3V20C3 21.11 3.9 22 5 22H19C20.11 22 21 21.11 21 20V19H22C22.55 19 23 18.55 23 18V15C23 14.45 22.55 14 22 14M7.5 18C6.12 18 5 16.88 5 15.5C5 14.68 5.4 13.96 6 13.5L9.83 16.38C9.5 17.32 8.57 18 7.5 18M16.5 18C15.43 18 14.5 17.32 14.17 16.38L18 13.5C18.6 13.96 19 14.68 19 15.5C19 16.88 17.88 18 16.5 18Z"
-              />
-            </svg>
-          </button>
-          <button data-player="player2" class="toggle-human-mode-2">
-            <svg
-              class="karate-icon"
-              style="width: 24px; height: 24px"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M19.8 2L11.6 8.7L10.39 7.66L14 5.58L9.41 1L8 2.41L10.74 5.15L5 8.46L3.81 12.75L6.27 17L8 16L5.97 12.5L6.32 11.18L9.5 13L10 22H12L12.5 12L21 3.4L19.8 2M5 3C6.11 3 7 3.9 7 5S6.11 7 5 7 3 6.11 3 5 3.9 3 5 3Z"
-              />
-            </svg>
-          </button>
-          <label for="player-2">Player 2</label>
-          <input
-            type="text"
-            id="player-2"
-            value=""
-            maxlength="15"
-            class="change-name-input"
-          />
-        </div>
-      </div>
-      <button class="start-game default-button-style">
-        <div class="start-gamer-text">Start Game</div>
-      </button>
+        <button class="start-game default-button-style">
+          <div class="start-gamer-text">Start Game</div>
+        </button>
+      </main>
+      <footer>
+        <div class="credits">Made by DustParticles</div>
+      </footer>
     </div>
     <header>
-      <p class="title h1">
-        <a
-          href="https://www.youtube.com/watch?v=Tt7bzxurJ1I&ab_channel=GrayWalf"
-          style="color: black; text-decoration: none"
-          >Tic Tac Toe</a
-        >
-      </p>
       <div class="score-board-container">
         <h1 class="score h1">SCORE</h1>
         <div class="score-player-container">
