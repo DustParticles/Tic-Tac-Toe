@@ -8,6 +8,88 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <header>
+      <div class="score-board-container">
+        <h1 class="score h1">SCORE</h1>
+        <div class="score-player-container">
+          <div class="player-score-one">0</div>
+          <span>&#58</span>
+          <div class="player-score-two">0</div>
+        </div>
+      </div>
+      <div class="board-container"></div>
+    </header>
+    <main>
+      <div class="player-1-container">
+        <div class="player-icon">
+          <svg style="width: 30px; height: 30px" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M21,9H15V22H13V16H11V22H9V9H3V7H21M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6C10.89,6 10,5.1 10,4C10,2.89 10.89,2 12,2Z"
+            />
+          </svg>
+        </div>
+        <div class="player-1-name-container">
+          <div class="player-title">Player 1</div>
+          <p class="player-1-name">ye</p>
+        </div>
+      </div>
+
+      <div class="gameboard-container">
+        <div class="gameboard">
+          <button data-grid-button="0" class="square"></button>
+          <button data-grid-button="1" class="square"></button>
+          <button data-grid-button="2" class="square"></button>
+          <button data-grid-button="3" class="square"></button>
+          <button data-grid-button="4" class="square"></button>
+          <button data-grid-button="5" class="square"></button>
+          <button data-grid-button="6" class="square"></button>
+          <button data-grid-button="7" class="square"></button>
+          <button data-grid-button="8" class="square"></button>
+        </div>
+      </div>
+
+      <div class="game-button-container">
+        <button class="go-back-overlay navigation-button">
+          <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M13.5 21H6V17H13.5C15.43 17 17 15.43 17 13.5S15.43 10 13.5 10H11V14L4 8L11 2V6H13.5C17.64 6 21 9.36 21 13.5S17.64 21 13.5 21Z"
+            />
+          </svg>
+          <p class="button-message">Back</p>
+        </button>
+
+        <button class="reset-button navigation-button">
+          <svg
+            id="svg-button"
+            style="width: 24px; height: 24px"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M12,4C14.1,4 16.1,4.8 17.6,6.3C20.7,9.4 20.7,14.5 17.6,17.6C15.8,19.5 13.3,20.2 10.9,19.9L11.4,17.9C13.1,18.1 14.9,17.5 16.2,16.2C18.5,13.9 18.5,10.1 16.2,7.7C15.1,6.6 13.5,6 12,6V10.6L7,5.6L12,0.6V4M6.3,17.6C3.7,15 3.3,11 5.1,7.9L6.6,9.4C5.5,11.6 5.9,14.4 7.8,16.2C8.3,16.7 8.9,17.1 9.6,17.4L9,19.4C8,19 7.1,18.4 6.3,17.6Z"
+            />
+          </svg>
+          <p class="button-message">New Game</p>
+        </button>
+      </div>
+
+      <div class="player-2-container">
+        <div class="player-icon">
+          <svg style="width: 30px; height: 30px" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M21,9H15V22H13V16H11V22H9V9H3V7H21M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6C10.89,6 10,5.1 10,4C10,2.89 10.89,2 12,2Z"
+            />
+          </svg>
+        </div>
+        <div class="player-2-name-container">
+          <div class="player-title">Player 2</div>
+          <p class="player-2-name">yeeee</p>
+        </div>
+      </div>
+    </main>
     <div class="popup close">
       <div class="popup-content">
         <div class="close-container">
@@ -15,7 +97,7 @@
         </div>
         <h1 class="winner-name">Undefined</h1>
         <h1 class="popup-win-status">WINS</h1>
-        <button class="reset-button default-button-style popup-close-button">
+        <button class="reset-button navigation-button popup-close-button">
           <svg
             id="svg-button"
             style="width: 24px; height: 24px"
@@ -109,7 +191,7 @@
             </button>
           </div>
         </div>
-        <button class="start-game default-button-style">
+        <button class="start-game navigation-button">
           <div class="start-gamer-text">Start Game</div>
         </button>
       </main>
@@ -117,87 +199,6 @@
         <div class="credits">Made by DustParticles</div>
       </footer>
     </div>
-    <header>
-      <div class="score-board-container">
-        <h1 class="score h1">SCORE</h1>
-        <div class="score-player-container">
-          <div class="player-score-one">0</div>
-          <div class="player-score-two">0</div>
-        </div>
-      </div>
-      <div class="board-container"></div>
-    </header>
-    <main>
-      <div class="player-1-container">
-        <div class="player-icon">
-          <svg style="width: 30px; height: 30px" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M21,9H15V22H13V16H11V22H9V9H3V7H21M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6C10.89,6 10,5.1 10,4C10,2.89 10.89,2 12,2Z"
-            />
-          </svg>
-        </div>
-        <div class="player-1-name-container">
-          <div class="player-title">Player 1</div>
-          <p class="player-1-name">ye</p>
-        </div>
-      </div>
-
-      <div class="gameboard-container">
-        <div class="gameboard">
-          <button data-grid-button="0" class="square"></button>
-          <button data-grid-button="1" class="square"></button>
-          <button data-grid-button="2" class="square"></button>
-          <button data-grid-button="3" class="square"></button>
-          <button data-grid-button="4" class="square"></button>
-          <button data-grid-button="5" class="square"></button>
-          <button data-grid-button="6" class="square"></button>
-          <button data-grid-button="7" class="square"></button>
-          <button data-grid-button="8" class="square"></button>
-        </div>
-      </div>
-
-      <div class="game-button-container">
-        <button class="go-back-overlay default-button-style">
-          <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M13.5 21H6V17H13.5C15.43 17 17 15.43 17 13.5S15.43 10 13.5 10H11V14L4 8L11 2V6H13.5C17.64 6 21 9.36 21 13.5S17.64 21 13.5 21Z"
-            />
-          </svg>
-          <p class="button-message">Back</p>
-        </button>
-
-        <button class="reset-button default-button-style">
-          <svg
-            id="svg-button"
-            style="width: 24px; height: 24px"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="M12,4C14.1,4 16.1,4.8 17.6,6.3C20.7,9.4 20.7,14.5 17.6,17.6C15.8,19.5 13.3,20.2 10.9,19.9L11.4,17.9C13.1,18.1 14.9,17.5 16.2,16.2C18.5,13.9 18.5,10.1 16.2,7.7C15.1,6.6 13.5,6 12,6V10.6L7,5.6L12,0.6V4M6.3,17.6C3.7,15 3.3,11 5.1,7.9L6.6,9.4C5.5,11.6 5.9,14.4 7.8,16.2C8.3,16.7 8.9,17.1 9.6,17.4L9,19.4C8,19 7.1,18.4 6.3,17.6Z"
-            />
-          </svg>
-          <p class="button-message">New Game</p>
-        </button>
-      </div>
-
-      <div class="player-2-container">
-        <div class="player-icon">
-          <svg style="width: 30px; height: 30px" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M21,9H15V22H13V16H11V22H9V9H3V7H21M12,2A2,2 0 0,1 14,4A2,2 0 0,1 12,6C10.89,6 10,5.1 10,4C10,2.89 10.89,2 12,2Z"
-            />
-          </svg>
-        </div>
-        <div class="player-2-name-container">
-          <div class="player-title">Player 2</div>
-          <p class="player-2-name">yeeee</p>
-        </div>
-      </div>
-    </main>
   </body>
   <script type="module" src="game.js"></script>
 </html>
