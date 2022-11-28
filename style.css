@@ -444,6 +444,10 @@ button {
   background-color: #f2f0e5;
 }
 
+.navigation-button:hover {
+  text-shadow: 2px 2px 2px #212123;
+}
+
 button:active {
   transform: scale(0.99);
 }
@@ -506,17 +510,20 @@ header {
 .popup-close-styling {
   font-size: 2.5rem;
   background-color: transparent;
+  outline: none;
   border: none;
 
-  color: #2f363e;
+  color: #ede19e;
 }
 
 .popup-close-styling:hover {
-  color: #748783;
+  text-shadow: 2px 2px 1px #b45252;
+  box-shadow: none;
 }
 
 .popup-close-styling:active {
   color: red;
+  text-shadow: none;
 }
 
 .popup-content {
@@ -529,9 +536,9 @@ header {
 
   gap: 12px;
   padding: 10px 10px 15px;
-  background-color: #bac6a9;
-  outline: 2px solid #9fa089;
-  color: #726d66;
+  background-color: #d3a068;
+  outline: 2px solid #a77b5b;
+  color: #b45252;
 
   border-radius: 5px;
 }
@@ -609,16 +616,18 @@ h1 {
   font-size: 1.6rem;
   background-color: #f2f0e5;
   outline: #b8b5b9;
+
   padding: 10px;
 }
 
 .start-gamer-text,
 .start-gamer-text:hover {
+  color: #4b80ca;
   font-family: SilkScreenBold;
 }
 
 .start-gamer-text:active {
-  color: rgba(78, 89, 74, 0.4);
+  color: #68c2d3;
 }
 
 .player-1-settings,
