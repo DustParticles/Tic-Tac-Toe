@@ -381,12 +381,14 @@ body {
   display: grid;
   grid-template-rows: 1fr 3fr;
   grid-template-columns: 1fr 3fr 1fr;
-  padding: 0px 5px;
+
   position: relative;
   font-family: SilkScreenRegular, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
     sans-serif;
   height: 100%;
+
+  background-color: #a2dcc7;
 }
 
 body > header {
@@ -407,7 +409,7 @@ main {
 }
 
 label {
-  color: #ede19e;
+  color: #c2d368;
   font-weight: 900;
   font-size: 1.6rem;
 }
@@ -415,7 +417,7 @@ label {
 button:hover {
   transition: 0.1s;
   transform: scale(1.01);
-  box-shadow: 2px 2px 1.5px 1.5px gray;
+  box-shadow: 2px 2px 1.5px 1.5px #4e584a;
 
   outline: none;
 }
@@ -438,6 +440,12 @@ button {
 .navigation-button {
   width: 8vw;
   height: max(2vw, 40px);
+  color: #212123;
+  background-color: #f2f0e5;
+}
+
+button:active {
+  transform: scale(0.99);
 }
 
 header {
@@ -456,7 +464,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  color: #68c2d3;
   font-size: clamp(2rem, 1.5vw, 2vw);
   flex-basis: 42px;
 }
@@ -466,6 +474,11 @@ header {
   justify-content: space-evenly;
   font-size: clamp(4rem, 2vw, 3vw);
   font-weight: 900;
+  color: #ede19e;
+}
+
+.score-colon {
+  color: #d3a068;
 }
 
 .popup {
@@ -550,13 +563,12 @@ h1 {
   z-index: 1000;
   width: 100%;
   height: 100%;
-
-  background-color: #d3a068;
+  background-color: #567b79;
 }
 
 .overlay > header,
 .overlay header a:visited {
-  color: #a77b5b;
+  color: #8ab060;
 }
 
 .overlay > main {
@@ -567,16 +579,16 @@ h1 {
 }
 
 .overlay > footer {
-  color: #646365;
+  color: #b8b5b9;
 }
 
 .overlay button {
-  color: #3a3858;
+  color: #4e584a;
   transition: 250ms;
 }
 
 .overlay button:hover {
-  box-shadow: 2px 2px 2px 1.5px rgba(181, 79, 79, 0.7);
+  box-shadow: 2px 2px 2px 1.5px rgba(78, 88, 74, 0.6s);
 }
 
 .overlay button:active {
@@ -606,7 +618,7 @@ h1 {
 }
 
 .start-gamer-text:active {
-  color: rgba(180, 82, 82, 0.4);
+  color: rgba(78, 89, 74, 0.4);
 }
 
 .player-1-settings,
@@ -656,13 +668,11 @@ button[data-player] {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 5px;
 }
 
 .player-icon {
   display: flex;
-  outline: 1px solid black;
-  padding: 5px;
+  color: #b45252;
   border-radius: 100%;
   height: 4vw;
   width: 4vw;
@@ -671,13 +681,15 @@ button[data-player] {
 }
 
 .player-title {
-  font-size: 3.5vw;
+  color: #68c2d3;
+  font-size: 2.5vw;
 }
 
 .player-1-name,
 .player-2-name {
   font-weight: 900;
   font-size: 2vw;
+  color: #ede19e;
 }
 
 .edit-name {
@@ -687,10 +699,8 @@ button[data-player] {
 }
 
 .player-2-container {
-  grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-start: 1;
-  grid-row-end: 2;
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
 }
 
 .player-1-name {
@@ -712,13 +722,12 @@ button[data-player] {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+
   gap: 5px;
   padding: 10px;
 
-  grid-row-start: 2;
-  grid-row-end: 3;
-  grid-column-start: 2;
-  grid-column-end: 3;
+  grid-row: 2 / 3;
+  grid-column: 1 / -1;
 }
 
 .game-settings {
@@ -744,24 +753,28 @@ button[data-player] {
   display: flex;
   justify-content: center;
   align-items: center;
-  outline: 2px solid black;
+  outline: none;
   padding: 5px;
   border: none;
-  background-color: transparent;
-  font-size: 9vw;
+  background-color: #f2f0e5;
+  color: #567b79;
+  font-size: 7vw;
 }
 
 .square:hover {
-  outline: 2px solid black;
+  box-shadow: 2px 2px 1.5px 1.5px #567b79;
 }
 
 .square:disabled:hover {
   border: none;
-  outline: 2px solid black;
+}
+
+.square:disabled {
+  color: #567b7948;
 }
 
 .square:active {
-  color: gray;
+  color: #567b793a;
 }
 
 .xbox-mini-fridge {
