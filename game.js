@@ -15,6 +15,12 @@ const nodeElements = (function () {
   const popupWinner = document.querySelector(".winner-name");
   const popupWinStatus = document.querySelector(".popup-win-status");
 
+  const humanSvg1 = document.querySelector(".human-svg-player-icon-1");
+  const robotSvg1 = document.querySelector(".robot-svg-player-icon-1");
+
+  const humanSvg2 = document.querySelector(".human-svg-player-icon-2");
+  const robotSvg2 = document.querySelector(".robot-svg-player-icon-2");
+
   const karateIconPlayer1 = document.querySelector(".toggle-human-mode-1");
   const robotIconPlayer1 = document.querySelector(".toggle-ai-mode-1");
 
@@ -42,6 +48,10 @@ const nodeElements = (function () {
     popup,
     popupWinner,
     popupWinStatus,
+    humanSvg1,
+    humanSvg2,
+    robotSvg1,
+    robotSvg2,
     karateIconPlayer1,
     robotIconPlayer1,
     karateIconPlayer2,
@@ -245,7 +255,7 @@ const gameboard = (function name(params) {
 
   let changePlayerMode = (x) => {
     // Check which button to change status
-    toggleAiMode(x.target.classList);
+    _toggleModes(x.target.classList);
 
     let playerButtonID = x.target.getAttribute("data-player");
 
@@ -306,14 +316,18 @@ const gameboard = (function name(params) {
     }
   };
 
-  let toggleAiMode = (button) => {
+  let _toggleModes = (button) => {
     // change button visibility
     if (button == "toggle-human-mode-1" || button == "toggle-ai-mode-1") {
       nodeElements.karateIconPlayer1.classList.toggle("close");
       nodeElements.robotIconPlayer1.classList.toggle("close");
+      nodeElements.humanSvg1.classList.toggle("close");
+      nodeElements.robotSvg1.classList.toggle("close");
     } else {
       nodeElements.karateIconPlayer2.classList.toggle("close");
       nodeElements.robotIconPlayer2.classList.toggle("close");
+      nodeElements.humanSvg2.classList.toggle("close");
+      nodeElements.robotSvg2.classList.toggle("close");
     }
   };
 
